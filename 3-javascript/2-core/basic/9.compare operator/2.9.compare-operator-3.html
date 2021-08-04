@@ -1,0 +1,29 @@
+<html>
+
+<body>
+  <script>
+    // + 는 결합의 의미가 강함, 문자열 기준
+    // 그 외 연산들은 대부분 숫자 기준->비교 연산도 숫자로 바꿔 처리
+
+    console.log('2' > 1); // true
+
+    console.log('01' == 1); // true, 숫자가 있으니까 숫자로 바꿈
+    console.log('01' > '1'); // false, 둘 다 문자로 사전식 비교
+
+    console.log(true == 1); // true
+    console.log(false == 0); // true
+
+    console.log(true == '1'); // true
+    console.log(false == '0'); // true
+
+    let a = 0;
+    let b = '0';
+    console.log(Boolean(a)); // false
+    console.log(Boolean(b)); // true
+
+    console.log(a == b);
+    // 0 == '0' -> 0 == 0 (문자 0을 숫자 0으로 바꿔 비교)=> true
+  </script>
+</body>
+
+</html>

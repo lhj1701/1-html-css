@@ -1,0 +1,23 @@
+<html>
+
+<body>
+  <script>
+
+    let a = true; // t
+    let b = ""; // f
+
+    // !(not) : 논리값을 반대로함
+    console.log(!a); //f
+    console.log(!b); //t
+
+    console.log(!!b); //f
+
+
+    // !! : not(!)연산을 두번 붙이면 변수의 논리값(boolean)을 추출할 수 있음
+    // let c = Boolean(b); // f
+    let c = !!b; // f , 원래 변수의 논리값(boolean)을 추출
+    console.log(c) // f
+  </script>
+</body>
+
+</html>

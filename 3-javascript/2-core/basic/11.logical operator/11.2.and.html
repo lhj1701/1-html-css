@@ -1,0 +1,50 @@
+<html>
+
+<body>
+  <script>
+    // 논리연산자(logical operator)
+
+    // 일반적인 프로그래밍
+    // && (and), 논리곱 : 둘 중 하나만 false면 false, 그 외에는 true
+    console.log(false && false); //false
+    console.log(true && false); //false
+    console.log(false && true); //false
+    console.log(true && true); //true
+
+    console.log("---------------");
+
+    // 자바스크립트의 &&(and) 연산, ampersand 2개
+    // "", 0, undefined, null, NaN == false
+    // 왼쪽 항이 true로 판별되면 오른쪽 항을 반환
+    // 왼쪽 항이 false로 판별되면 왼쪽 항을 반환
+
+    //short-circuit evaluation, lazy evaluation. 짧게, 게으르게 평가한다
+    //왼쪽 항만 t/f인지 평가
+
+    // false && ... -> false
+    // 왼쪽 항이 false로 판별되어 왼쪽 항을 반환
+    console.log("" && 0); // ""
+
+    let a = "" && 0;
+    console.log(a); // ""
+
+    // if(1||"a")
+
+    //true||...->true
+    console.log(1 && "a"); // a
+    console.log(undefined && "b"); // undefined
+
+    let c;
+    // let c = 0;
+    // let c = "";
+    if (typeof c == "undefinded") {
+      alert('값이 설정되어있군요');
+    }
+
+    //short-circuit응용, 앞 값이 true로 판별되면 뒤 값 실행
+    c && alert('값이 설정되어있군요');
+
+  </script>
+</body>
+
+</html>

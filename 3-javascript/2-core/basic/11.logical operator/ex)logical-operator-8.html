@@ -1,0 +1,15 @@
+<html>
+
+<body>
+  <script>
+    //   아래 표현식에서 어떤 alert가 실행될까요?
+
+    // if(...) 안에 표현식이 있으면 어떤 일이 일어날까요?
+
+    if (-1 || 0) alert('first'); // -1(t) || 0 (f) -> -1 => first 노출
+    if (-1 && 0) alert('second'); // t && f -> 안뜸
+    if (null || -1 && 1) alert('third'); // f || t && t -> t1 && t2 => 1(=t2) ==> third 노출
+  </script>
+</body>
+
+</html>
