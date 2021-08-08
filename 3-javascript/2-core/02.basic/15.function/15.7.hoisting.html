@@ -1,0 +1,37 @@
+<html>
+
+<body>
+  <script>
+
+    //Hoisting(끌어올리다)
+    //뒤에 선언이 있고, 앞에서 사용을 하면 선언을 내부적으로
+    //허용범위 최상단으로 끌어올려줌
+    // sayHi("John"); // Hello, John
+
+
+    // 자바스크립 엔진이 호이스팅한 결과
+    // function sayHi(name) {
+    //   alert(`Hello, ${name}`);
+    // }
+
+    // let sayHi = function (name) {  // (*) 마술은 일어나지 않습니다.
+    //   alert(`Hello, ${name}`);
+    // };
+
+  </script>
+  <script>
+    // 자바스크립 엔진이 호이스팅한 결과
+    let sayHi;
+    sayHi("John"); // Hello, John
+
+    // function sayHi(name) {
+    //   alert(`Hello, ${name}`);
+    // }
+    sayHi = function (name) {
+      alert(`Hello, ${name}`);
+    };
+
+  </script>
+</body>
+
+</html>
