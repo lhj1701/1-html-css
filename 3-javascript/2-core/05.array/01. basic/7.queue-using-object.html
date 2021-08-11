@@ -1,0 +1,59 @@
+<html>
+
+<body>
+  <script>
+    // 데이터를 순차적으로 밀어넣고, 들어간 순서대로 꺼내야함
+    // 대기열(queue) : fifo (first in first out)
+    // 큐에 요소 추가(enqueue), 추출(dequeue)
+
+    // ["hong","john","donald","kim","lee"]
+
+    let queue = {};
+    let head = 0; // 가장 앞쪽 key를 저장하는 변수
+    let tail = 0; // 가장 뒤쪽 key를 저장하는 변수
+
+    // queue에 요소(item) 추가(enqueue), tail 위치에 넣음
+    // object의 tail 값의 속성을 만듦 "0", "1", "2"
+    queue[tail++] = "hong";
+    console.log(queue);
+    queue[tail++] = "john";
+    console.log(queue);
+    queue[tail++] = "donald";
+    console.log(queue);
+    queue[tail++] = "kim";
+    console.log(queue);
+    queue[tail++] = "lee";
+    console.log(queue);
+
+    //queue에서 요소 꺼내기(dequeue), head 위치에서 꺼내고(조회하고) key 삭제
+    console.log(queue[head++]); // 0, hong
+    delete queue[head++]; // 0, delete queue ["0"]
+    console.log(queue);
+
+    console.log(queue[head++]);//john
+    delete queue[head++];//1 delete queue ["1"]
+    console.log(queue);
+
+    console.log(queue[head++]);
+    delete queue[head++];
+    console.log(queue);
+
+    console.log(queue[head++]);
+    delete queue[head++];
+    console.log(queue);
+
+    console.log(queue[head++]);
+    delete queue[head++];
+    console.log(queue);
+
+    // 내부적으로 key가 숫자로 벼환 가능하니 정렬 알고리즘이 실행될까?
+    // 속성을 반복해서 탐색할 때 for-in
+
+    // 큐 크기 구하기
+    console.log(queue)
+
+
+  </script>
+</body>
+
+</html>

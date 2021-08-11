@@ -1,0 +1,22 @@
+<html>
+
+<body>
+  <script>
+    // call stack : 함수 호출 -> 실행 stack 자료구조에 넣어서 실행됨
+    function a() {
+      b();
+      console.log("a");
+    }
+
+    function b() {
+      c();
+      console.log("b");
+    }
+    function c() {
+      console.log("c");
+    }
+
+  </script>
+</body>
+
+</html>

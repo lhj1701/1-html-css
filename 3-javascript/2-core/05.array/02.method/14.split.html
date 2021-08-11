@@ -1,0 +1,19 @@
+<html>
+
+<body>
+  <script>
+    let arr = [15, 1, 2];
+
+    //name 속성 순서로 정렬, 알파벳 사전식
+    // arr.sort((a, b) => {
+    //   if (a.name > b.name) return 1;
+    //   if (a.name == b.name) return 0;
+    //   if (a.name < b.name) return -1;
+    // });
+
+    arr.sort((a, b) => a.name.localeCompare(b));
+    console.log(arr);
+  </script>
+</body>
+
+</html>
