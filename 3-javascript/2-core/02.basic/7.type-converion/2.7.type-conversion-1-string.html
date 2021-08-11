@@ -1,28 +1,28 @@
 <html>
+  <body>
+    <script>
+      // 콘솔 창에 파란 색으로 나오면 number/boolean, 일반 검은색은 string
+      // let value = true;
+      let value = 10;
+      console.log(typeof value);
+      console.log(value);
 
-<body>
-  <script>
-    // let value = true;
-    let value = 10;
-    console.log(typeof value);
-    console.log(value);
-    //문자열로 변환
-    //불린/숫자->문자
-    //boolean/number -> string
+      //문자열로 변환
+      //불린/숫자->문자
+      //boolean/number -> string
 
-    //string(값) -> 값이 문자열로 전환됨
-    value = String(value);
+      // 1. string(값)
+      //string(값) -> 값이 문자열로 전환됨 (boolean->true)
+      value = String(value);
 
+      // 2. "" + 값 -> 값이 문자열로 전환됨
+      // value = "" + value; (boolean->string)
 
-    //"" + 값 -> 값이 문자열로 전환됨
-    // value = "" + value;
-
-    //값.toSrting();
-    // value = value.toSrting();
-    // alert(typeof value);
-    console.log(typeof value);
-    console.log(value);
-  </script>
-</body>
-
+      // 3. 값.toSrting();
+      // value = value.toSrting();
+      // alert(typeof value);
+      console.log(typeof value);
+      console.log(value);
+    </script>
+  </body>
 </html>
