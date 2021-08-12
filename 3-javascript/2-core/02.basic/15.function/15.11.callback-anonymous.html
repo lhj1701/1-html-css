@@ -1,29 +1,29 @@
 <html>
+  <body>
+    <script>
+      //   function ask(question, yes, no) {
+      //   if (confirm(question)) yes()
+      //   else no();
+      // }
 
-<body>
-  <script>
-    //   function ask(question, yes, no) {
-    //   if (confirm(question)) yes()
-    //   else no();
-    // }
+      // ask(
+      //   "동의하십니까?",
+      //   function() { alert("동의하셨습니다."); },
+      //   function() { alert("취소 버튼을 누르셨습니다."); }
+      // );
 
-    // ask(
-    //   "동의하십니까?",
-    //   function() { alert("동의하셨습니다."); },
-    //   function() { alert("취소 버튼을 누르셨습니다."); }
-    // );
+      function ask(question, yes, no) {
+        if (confirm(question)) yes();
+        else no();
+      }
 
-    function ask(question, yes, no) {
-      if (confirm(question)) yes()
-      else no();
-    }
-
-    ask(
-      "동의하십니까?",
-      () => alert("동의하셨습니다."),
-      () => alert("취소 버튼을 누르셨습니다.")
-    );
-  </script>
-</body>
-
+      // 익명함수(anonymous function) : 익명 함수를 콜백으로 전달
+      // 익명함수는 1회성 사용이다. 코드를 분리해서 처리하는 목적으로만 생각, 재사용x
+      ask(
+        "동의하십니까?",
+        () => alert("동의하셨습니다."),
+        () => alert("취소 버튼을 누르셨습니다.")
+      );
+    </script>
+  </body>
 </html>

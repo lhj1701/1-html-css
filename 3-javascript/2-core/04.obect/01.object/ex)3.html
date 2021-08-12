@@ -1,15 +1,16 @@
 <html>
+  <body>
+    <script>
+      // const와 함께 선언한 객체를 변경하는 게 가능할까요? 생각을 공유해주세요!
 
-<body>
-  <script>
-    // const와 함께 선언한 객체를 변경하는 게 가능할까요? 생각을 공유해주세요!
+      const user = {
+        name: "John",
+      };
 
-    const user = {
-      name: "John"
-    };
-    // 아래 코드는 에러 없이 실행될까요?
-    user.name = "Pete";
-  </script>
-</body>
+      user.name = "Pete";
 
+      // 새로운 객체를 할당하면 에러 발생
+      // 객체 참조 변경 없이 속성만 바뀌므로 실행됨
+    </script>
+  </body>
 </html>

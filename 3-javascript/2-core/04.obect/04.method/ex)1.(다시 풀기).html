@@ -1,23 +1,27 @@
 <html>
+  <body>
+    <script>
+      // 함수 makeUser는 객체를 반환합니다.
 
-<body>
-  <script>
-    // 함수 makeUser는 객체를 반환합니다.
+      // 이 객체의 ref에 접근하면 어떤 결과가 발생하고, 그 이유는 뭘까요 ?
+      // 속성에 객체를 넣을 수 없어 에러 나올거같음
 
-    // 이 객체의 ref에 접근하면 어떤 결과가 발생하고, 그 이유는 뭘까요 ?
+      function makeUser() {
+        return {
+          name: "John",
+          ref: this,
+        };
+      }
 
-    function makeUser() {
-      return {
-        name: "John",
-        ref: this
-      };
-    };
+      let user = makeUser();
+      alert(user.ref.name); // 결과가 어떻게 될까요?
 
-    let user = makeUser();
+      // 컨텍스트-문맥
+      //->자바스크립트에서 this는 런타임(실행시점, 실행컨텍스트)에 결정됩니다.
+      // 메서드가 어디서 정의되었는지에 상관없이 this는 ‘점 앞의’ 객체가 무엇인가에 따라 ‘자유롭게’ 결정됩니다.
 
-    alert(user.ref.name); // 결과가 어떻게 될까요?
-
-  </script>
-</body>
-
+      // user.ref 는 window 객체(js 최상위객체)이고, makerUser는 window 객체에 함수로 생성된
+      // 따라서 makeUser() -> window.makeUser(), 함수실행 컨텍스트는 window
+    </script>
+  </body>
 </html>
