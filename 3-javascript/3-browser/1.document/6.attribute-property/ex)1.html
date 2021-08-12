@@ -1,0 +1,15 @@
+<!-- 문서에서 data-widget-name이라는 속성을 가진 요소를 찾고, 해당 요소의 값을 읽는 코드를 작성해 보세요. -->
+
+<html>
+  <body>
+    <div data-widget-name="menu">Choose the genre</div>
+
+    <script>
+      const find = document.querySelector("data-widget-name");
+      alert(find.textContent);
+
+      // data-widget-name -> dataset.widgetName
+      // 하이픈이 camel case로 바뀜
+    </script>
+  </body>
+</html>

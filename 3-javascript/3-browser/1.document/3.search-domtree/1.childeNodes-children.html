@@ -1,0 +1,28 @@
+<html>
+  <body>
+    <div>시작</div>
+    <ul>
+      <li>
+        <b>항목</b>
+      </li>
+    </ul>
+    <!-- script 태그를 가장 하단에 둠 -->
+    <script>
+      //body 밑에 있는 하위 노드들을 탐색
+      for (let node of document.body.childNodes) {
+        console.log(node);
+      }
+
+      // 엔터쳐서 내려간 공간이 콘솔창에서 text로 나타남
+
+      // 첫번째 자식요소, 마지막 자식요소
+      console.log(document.body.firstChild);
+      console.log(document.body.lastChild);
+
+      // body 밑 하위요소(element)들을 탐색
+      for (let elem of document.body.children) {
+        console.log(elem); // div, ul, div, script
+      }
+    </script>
+  </body>
+</html>

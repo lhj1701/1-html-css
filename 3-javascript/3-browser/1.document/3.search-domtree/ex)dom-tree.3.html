@@ -1,0 +1,34 @@
+<!-- 테이블의 모든 대각선 셀을 빨간색으로 칠하는 코드를 작성해보세요.
+
+<table>에서 모든 대각선 <td>를 가져와 아래 코드를 이용해 칠해야 합니다.
+
+// td는 테이블 셀에 대한 참조가 되어야 합니다.
+td.style.backgroundColor = 'red'; -->
+
+<html>
+  <body>
+    <table>
+      <tbody>
+        <tr>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+  <script>
+    // tbody 변수가 실행되기 전까지는 table 인지, tbody, div, ul인지 모름
+    const tbody = document.body.children[0].children[0];
+    console.log(tbody);
+    console.log(tbody.rows);
+    console.log(tbody.rows.length);
+
+    // tbody의 rows(행들)에 대해서 반복문을 수행
+    for (let i = 0; i < tbody.rows.length; i++) {
+      // tbody.rows[0].cells[0].style.backgroundColor = "red";
+      // tbody.rows[1].cells[1].style.backgroundColor = "red";
+      // ...
+
+      tbody.rows[i].cells[i].style.backgroundColor = "red";
+    }
+  </script>
+</html>
