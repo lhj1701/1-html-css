@@ -8,11 +8,11 @@
 
       // 배열을 '복사'한 후, push 메서드를 이용해 새로운 값을 추가합니다.
       let shoppingCart = fruits; // 참조만 복사
-      let shoppingCart = [...fruits]; // 새로운 배열 복사 , spread 연산자
+      let shoppingCart = [...fruits]; // 새로운 배열 복사 , spread (나열 연산자)
       shoppingCart.push("바나나");
 
       // fruits에 어떤 값이 들어 있을까요?
-      alert(fruits.length); // ?
+      alert(fruits.length); // ->4 (배열 복사가 가능하기때문)
       console.log(shoppingCart);
     </script>
   </body>

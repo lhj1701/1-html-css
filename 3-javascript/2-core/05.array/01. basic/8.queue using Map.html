@@ -14,36 +14,36 @@
 
       // queue에 요소(item) 추가(enqueue), tail 위치에 넣음
       // Map의 tail 값을 키(key로 요소(item)를 만듦 "0", "1", "2"
-      queue[tail++] = "hong"; // 맵.set(키,값)
+      queue.set(tail++, "hong"); // 맵.set(키,값)
       console.log(queue);
-      queue[tail++] = "john";
+      queue.set(tail++, "john");
       console.log(queue);
-      queue[tail++] = "donald";
+      queue.set(tail++, "donald");
       console.log(queue);
-      queue[tail++] = "kim";
+      queue.set(tail++, "kim");
       console.log(queue);
-      queue[tail++] = "lee";
+      queue.set(tail++, "lee");
       console.log(queue);
 
       //queue에서 요소 꺼내기(dequeue), head 위치에서 꺼내고(조회하고) key 삭제
-      console.log(queue.get[head++]); // map.get(key) 0, hong
-      delete queue[head++]; // 0, queue.delete(0)
+      console.log(queue.get(head)); // map.get(key) 0, hong
+      delete queue(head++); // 0, queue.delete(0)
       console.log(queue);
 
-      console.log(queue[head++]); //1, john
-      delete queue[head++]; //1, queue.delete(0)
+      console.log(queue.get(head)); //1, john
+      delete queue(head++); //1, queue.delete(1)
       console.log(queue);
 
-      console.log(queue[head++]);
-      delete queue[head++];
+      console.log(queue.get(head)); //2
+      delete queue(head++); //2
       console.log(queue);
 
-      console.log(queue[head++]);
-      delete queue[head++];
+      console.log(queue.get(head));
+      delete queue(head++);
       console.log(queue);
 
-      console.log(queue[head++]);
-      delete queue[head++];
+      console.log(queue.get(head));
+      delete queue(head++);
       console.log(queue);
 
       // 키 값에 따라서 정렬하지 않음, 추가한 순서대로만 만들어짐

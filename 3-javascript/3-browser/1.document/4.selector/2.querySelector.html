@@ -33,13 +33,19 @@
       const ul = document.querySelector("#list");
       console.log(ul);
 
-      // id가 list인 요소의 자식들
+      //같은 요소--------------------------------------
+      // id가 list인 요소의 li 태그 자식들
       const liList1 = document.querySelectorAll("#list>li");
       console.log(liList1);
+
+      // id 선택자
+      const ul = document.querySelector("#list");
+      console.log(ul);
 
       // 요소 (document외에도 올 수 있음).querySelector
       const liList2 = ul.querySelectorAll("li");
       console.log(liList2);
+      //--------------------------------------------
 
       //class 선택자
       const liList = document.querySelectorAll(".item");
