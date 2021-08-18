@@ -7,7 +7,9 @@
 
       let users = [john, pete, mary];
 
-      let userMapped = users.map(item=>({fullName:${item.name}${item.surname},id : item.id}))
+      let userMapped = users.map((item) => ({
+        fullName: `${item.name} ${item.surname},id : item.id`,
+      }));
     </script>
   </body>
 </html>

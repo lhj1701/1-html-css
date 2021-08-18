@@ -5,14 +5,6 @@
         arr.sort((a, b) => a.age - b.age);
       }
 
-      function sortByKey(arr, key) {
-        if (typeof arr[0][key] == "number") {
-          arr.sort((a, b) => a[key] - b[key]);
-        } else if (typeof arr[0][key] == "string") {
-          console.log("string");
-          arr.sort((a, b) => a[key].localeCompare(b[key]));
-        }
-      }
       let john = { name: "John", age: 25 };
       let pete = { name: "Pete", age: 30 };
       let mary = { name: "Mary", age: 28 };
