@@ -14,7 +14,7 @@ import reportWebVitals from './reportWebVitals';
 // 탬플릿(template): 부분 UI, UI구조만 가짐
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App />{/*App 컴포넌트*/}
   </React.StrictMode>,
   document.getElementById('root')
 );

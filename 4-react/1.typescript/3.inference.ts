@@ -4,7 +4,7 @@
 let firstname = "John"; // let firstnmae : string = "John"
 console.log(firstname.toUpperCase());
 
-// firstname=1; 타입에러
+// firstname=1; 타입에러 (숫자를 문자에 넣을 수 없음)
 // 첫번째 글자를 대문자로 변환하는 함수
 function capitalize1(str:string){
   //toUpperCase() : string

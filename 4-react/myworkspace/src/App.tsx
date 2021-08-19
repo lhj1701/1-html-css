@@ -1,7 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import calculator from './components/calculator';
+import Generator from './components/generator';
 // JSX : Javascript 기반의 HTML 태그 형식
 // 각각의 태그들(element)은 javascript 객체임
 // 일반적인 html 태그 표기법과 다름
@@ -41,24 +42,36 @@ import './App.css';
 // JSX Element를 반환
 // JS 함수인데, JSX Element를 반환함 == Component
 // 리액트에서 컴포넌트는 JSX Element를 렌더링하는 함수
+//=> 리액트에서 컴포넌트란? 자바스크립트 기반의 html 태그형식을 화면에 표시해주는 함수
+
+import Header from "./components/Header"
+import Button from "./components/Button";
+import Counter from "./components/counter";
+
+// 리액트 == 컴포넌트 개발 라이브러리
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    // main container
+    <div style={{width:"500px", margin:"0 auto"}}>
+      {/* JSX 내부에서 주석달기 */}
+      {/* 재사용하지 않는 컴포넌트 */}
+
+      <h1 style={{color:"red"}}></h1>
+
+      {/* 속성값을 변경하여 재사용하는 컴포넌트 */}
+      {/* component의 속성(prop)을 넘김*/}
+      {/* 속성명={속성값}*/}
+
+      <Header color = {"red"} title={"react"}/>
+      <Header color = {"green"} title={"javascript"}/>
+      <Header color = {"blue"} title={"typescript"}/>
+
+<Button color = {"white"} backgroundColor = {"blue"} text={"Add"}/>
+<Button color = {"black"} backgroundColor = {"red"} text={"delete"}/>
+<Button color = {"white"} backgroundColor = {"green"} text={"done"}/>
+<Counter/>
+
     </div>
   );
 }

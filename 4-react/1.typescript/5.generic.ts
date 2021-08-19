@@ -9,4 +9,6 @@ function identity<Type>(arg:Type):Type{
 }
 
 let output1 = identity<string>("TypeScript");
+console.log(output1)
 let output2 = identity<number>(1);
+console.log(output2)
