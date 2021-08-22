@@ -17,20 +17,20 @@ import { useState } from "react";
 // 결과값 : 50 
 // <div>50</div>
 
-const calculator = () => {
+const Calculator = () => {
 
 const [result, setResult] = useState(0);
 const calcuate = () => {
-const a = prompt("첫번째 숫자")
-const b = prompt("두번째 숫자")
-const op = prompt("연산자,(+,-,*,/)")
+const a = prompt("첫번째 숫자");
+const b = prompt("두번째 숫자");
+const op = prompt("연산자,(+,-,*,/)");
 
-console.log(`${a}${op}${b}`);
+alert(eval(`${a}${op}${b}`));
 setResult(eval(`${a}${op}${b}`));
 
 //eval(문자열)
 //문자열이 자바스크립트코드로 실행될 수 있다면 실행함
-const code = `alert(${a}${op}${b})`
+// const code = `alert(${a}${op}${b})`;
 
 // state 값에 변동이 없으면 컴포넌트를 업데이트하지 않음
 // 기존 result == 20
@@ -41,13 +41,12 @@ eval("alert('')")
 
   return(
     <div>
-      <h2 onClick={()=>{
+      <h2>calculator</h2>
+    <button onClick={()=>{
         calcuate();
-      }}
-      >calculator</h2>
-    <button>start</button>
+      }}>start</button>
     <div>{result}</div>
     </div>
   ) 
 }
-export default calculator
+export default Calculator

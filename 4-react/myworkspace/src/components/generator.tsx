@@ -10,8 +10,7 @@ import { useState } from "react";
 // DOM요소를 직접적으로 조작
 
 // React
-// Virtual DOM 요소와 관련된
-// state 또는 prop를 조작
+// Virtual DOM 요소와 관련된 state 또는 prop를 조작
 
 // 세부 컴포넌트
 const ListItem = ({ key, num }: { key: number; num: number }) => {
