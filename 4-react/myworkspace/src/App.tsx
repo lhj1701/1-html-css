@@ -61,6 +61,7 @@ const Hello = lazy(()=>import( "./components/Hello"))
 const AccountManager = lazy(()=>import ('./components/AccountManagerRef'))
 const Components = lazy(()=>import('./components/Components'))
 const Bootstrap = lazy(()=>import ('./components/Bootstrap'))
+const Todo = lazy(()=>import ('./components/Todo'))
 
 
 
@@ -88,6 +89,7 @@ function App() {
           <Route path="/generator" component={Generator}/>
           <Route path="/account-manager" component={AccountManager}/>
           <Route path="/bootstrap" component={Bootstrap}/>
+          <Route path="/todo" component={Todo}/>
         </Switch>
         </Suspense>
       </main>
