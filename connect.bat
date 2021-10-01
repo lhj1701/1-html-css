@@ -1,0 +1,1 @@
+ssh -i "c:\git2021-working\myworkspace.pem" ubuntu@ec2-3-38-95-168.ap-northeast-2.compute.amazonaws.com

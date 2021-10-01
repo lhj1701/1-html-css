@@ -1,0 +1,46 @@
+gradle, maven
+=> npm과 비슷, 의존성 관리 및 애플리케이션 빌드
+
+gradlew(배치파일) : gradle wrapper
+gradle 이 없으면 자동 설치함
+
+gradle build : 테스트 코드까지 실행함
+
+gradlew bootJar : 실행파일만 생성
+
+ubuntu@ip-172-31-11-229:~/app/myworkspace$ nohup java -jar myworkspace-0.0.1-SNAPSHOT.jar &
+
+ps -ef | grep java
+->ps(processs) : 실행중인 프로그램 목록 조회 명령어
+->-ef : 시스템에서 실행중인 모든 프로세스(-2)를 자세하게 조회(-f)
+-- ps -ef : 전체 프로세스 목록 조회
+--grep 키워드 파일명 : 파일의 특정키워드 검색
+
+-> | (pipe, 연결자) : 앞의 명령의 출력을 뒤의 명령어의 입력으로 연결
+-> 전체 프로세스 목록 -> grep java 전체 프로세스 목록
+
+** ps -ef의 처리 결과가 화면에 출력되지 않고 grep 명령어의 입력으로 넘어감
+
+tail 파일명 : 파일의 뒤쪽 부분을 읽어옴(기본적으로 10줄)
+tail -f 파일명 : 파일 뒤쪽을 읽고 추가되는 것을 대기하고 있음
+: 내용이 추가되면 바로 출력함
+tail -f nohup.out : nohup 백그라운드 실행결과가 지속적으로 nohup.out파일에 기록됨
+
+kill -9 PID : 프로세스를 강제종료, 프로세스 ID는 ps -ef의 두번 째 필드에 있는 숫자
+
+명령어 > 파일명
+ 명령어의 실행 출력 결과가 해당 파일에 기록됨(덮어씌움)
+
+명령어 >>파일명
+명령어의 실행출력 결과가 해당 파일에 기록됨(뒤에 붙임)
+
+
+코로나
+http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?pageNo=1&numOfRows=10&serviceKey=LKEbT%2FnJqHz4BIPCLD%2Fj7kAgku8isnaPS%2FsKigDaBX8%2Fqf78ovjrUolSkI%2FM%2BVAP%2FigDrCEBdRj2SyTOREbuqQ%3D%3D
+
+http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=LKEbT%2FnJqHz4BIPCLD%2Fj7kAgku8isnaPS%2FsKigDaBX8%2Fqf78ovjrUolSkI%2FM%2BVAP%2FigDrCEBdRj2SyTOREbuqQ%3D%3D
+
+
+
+대기오염
+http://apis.data.go.kr/B552584/ArpltnStatsSvc/getCtprvnMesureLIst?itemCode=PM10&dataGubun=HOUR&pageNo=1&serviceKey=LKEbT%2FnJqHz4BIPCLD%2Fj7kAgku8isnaPS%2FsKigDaBX8%2Fqf78ovjrUolSkI%2FM%2BVAP%2FigDrCEBdRj2SyTOREbuqQ%3D%3D

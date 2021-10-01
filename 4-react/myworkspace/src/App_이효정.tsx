@@ -2,8 +2,8 @@ import "./App.scss";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Suspense, lazy } from "react";
 
-const Feed = lazy(()=> import ('./domain/feed/Feed_이효정'))
-const Modal = lazy(()=> import ('./domain/todo/Todo'))
+const Feed = lazy(()=> import ('./features/feed/Feed_이효정'))
+const Modal = lazy(()=> import ('./features/todo/Todo'))
 function App() {
   return (
     <Router>

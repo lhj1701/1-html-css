@@ -1,0 +1,289 @@
+package com.git.constroller;
+
+// 값이 같은지를 비교하는 static 메소드
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.git.constroller.todo.Todo;
+import com.git.constroller.todo.TodoController;
+
+// 단위 테스트(unit test) : 작성한 클래스의 메소드를 테스트하는 것
+
+@SpringBootTest
+public class TestTodoController {
+
+	// 스프링에서 IoC 컨테이너(싱글턴 객체관리자)
+	// Inversion of Concern : 제어의 역전(관심의 분리)
+	// 객체 사용하려면 객체를 생성해야함
+	// 객체 생성은 Spring에서 해주고, 사용은 의존성 주입으로 주입받아서 사용함
+	// 의존성 주입(Dependency Injection) : 객체를 사용하는 곳 외부에서 객체를 넘겨받는 것
+	// 주로 필드, 메소드 매개변수로 주입받는다
+
+	// IoC컨테이너에 있는 TodoController 싱글턴 객체를 해당 필드에 주입함
+	// IoC컨테이너에서 간리되는 싱글턴 객체를 Bean객체라고도 함
+	// @Autowired
+	// TodoController controller;
+	// test case : 할 일 추가
+	// event flow(처리흐름 : 할 일 1건을 추가함)
+	// pre-condition(사전조건):따로 없음
+	// expected result(예상결과):할 일 목록에 추가한 데이터가 존재해야함
+
+	@Test
+	void addTodo() {
+		// 수동으로 생성
+		// controller.getTodos();
+		// given - 테스트 데이터 및 객체 준비
+		TodoController controller = new TodoController();
+		Todo expected = Todo.builder().memo("test").build();
+		// when - 실제 테스트케이스 event flow수행
+		// ServletResponse 객체는 가짜(Mock)을 넣어줌
+		controller.addTodo(expected, new MockHttpServletResponse());
+		// then - 예상결과와 실제 결과를 비교
+
+		// 전체 목록에 추가한 애를 가져옴
+		List<Todo> todos = controller.getTodos();
+		Todo actual = todos.get(0); // arrayList.get(인덱스);
+
+		// then- 예상결과 데이터와 실제 데이터를 비교함
+		assertEquals(expected.getId(), actual.getId());
+		assertEquals(expected.getMemo(), actual.getMemo());
+	}
+
+	// testcase : 할 일 삭제
+	// event flow(처리흐름 : 할 일 1건을 삭제함)
+	// pre-condition(사전조건):할 일 데이터가 최소 1건 있어야함
+	// expected result(예상결과):할 일 목록에 삭제한 데이터가 존재하면 안됨
+
+	@Test
+	void removeTodo() {
+		// given-테스트 데이터 및 객체 준비
+		// 사전 조건이 있다면 사전 조건을 준비하는 단계
+		// 검증을 위해선 1건 추가가 되어있어야함
+		TodoController controller = new TodoController();
+
+		Todo testItem = Todo.builder().memo("test").build();
+		controller.addTodo(testItem, new MockHttpServletResponse());
+		List<Todo> beforeTodos = controller.getTodos();
+		assertEquals(0, beforeTodos.size()); // 삭제 전에는 목록 크기가 1
+
+		// when - 실제 테스트케이스 event flow수행
+		controller.removeTodo(1, new MockHttpServletResponse()); // id가 1인 todo 1건을 삭제
+
+		// then - 예상결과 데이터와 실제 데이터를 비교함
+		// 목록을 조회했을 때 목록의 크기가 0이여야함
+		List<Todo> afterTodos = controller.getTodos();
+		assertEquals(0, todos.size()); // 삭제 후에는 목록 크기가 0
+	}
+
+	// 테스트케이스 : 할 일 수정
+	// event flow(처리흐름 )
+	// basic flow (정상 흐름) - 할 일 1건에 대해서 수정함
+	// alternative flow (예외흐름)
+	//   1. 목록에 없는 id값으로 삭제를 실행 - 404
+	//   2. 메모값을 빈 값 또는 데이터 객체를 안보냈음- 400
+	// pre-condition(사전조건):할 일 데이터가 최소 1건 있어야함
+	// expected result(예상결과):할 일 목록에 수정한 메모값으로 출력되어야함
+	@Test
+	void modifyTodo() {
+		// 검증을 위해선 1건 추가가 되어있어야함
+		TodoController controller = new TodoController();
+
+		Todo testItem = Todo.builder().memo("test").build();
+		controller.addTodo(testItem, new MockHttpServletResponse());
+
+		// basic flow
+		// when - 실제 테스트케이스 event flow수행
+		String expectedResult = "modify test memo";
+		Todo modifyData = Todo.builder().memo(expectedResult).build();
+		HttpServletResponse res = new MockHttpServletResponse();
+
+		controller.modifyTodo(1, modifyData, new MockHttpServletResponse() ); // id가 1인 todo에 1건을 수정
+
+		// then- 예상결과 데이터와 실제 데이터를 비교함
+		// 목록을 조회했을 때 해당 아이템의 메모값이 예상결과와 일치해야함
+		List<Todo> todos = controller.getTodos();
+		assertEquals(expectedResult, todos.get(0).getMemo());
+
+		// alternative flow - 1. id값이 없는 경우
+		// when - id가 2로 수정해봄
+		Todo resultTodoId = controller.modifyTodo(2, modifyData, res);
+		
+		// then- 예상결과 데이터와 실제 데이터를 비교함
+		// 반환객체가 null, Status Code404
+		assertNull(resultTodoId);
+		assertEquals(HttpServletResponse.SC_NOT_FOUND, res.getStatus());
+		
+
+		// alternative flow - 2-1. memo값이 null인 경우
+		// when
+		Todo resultTodoMemoNull = controller.modifyTodo(2, new Todo(), res);
+
+		// then - 예상 결과와 실제 결과를 비교
+		// 반환 객체가 null, Status Code 400
+		assertNull(resultTodoMemoNull);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, res.getStatus());
+		
+		// alternative flow - 2-2. memo값이 빈 값("")인 경우
+		// when
+		Todo resulteTodoMemoEmpty = controller.modifyTodo(1, Todo.builder().memo("").build().res);
+
+		// then - 예상 결과와 실제 결과를 비교
+		// 반환 객체가 null, Status Code 400
+		assertNull(resultTodoMemoEmpty);
+		assertEquals(HttpServletResponse.SC_BAD_REQUEST, res.getStatus());
+
+	}
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.git.constroller.todo;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.atomic.AtomicLong;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+//REST API : REST 방식으로 접근할 수 있는 인터페이스 제공하는 프로그램
+
+// @Controller
+// @ResponseBody
+@RestController
+public class TodoController {
+	// HashMap 정렬이 안됨 : get(key) -> 0(1)
+	// TreeMap 키 기준으로 정렬이 되어있음 get(key) -> (logn) 이진트리 구조
+
+	// 동시성으로 skiplist를 처리할 수 없게 만듦
+	// 
+	private SortedMap<Long, Todo> todoMap = Collections.synchronizedSortedMap(new ConcurrentSkipListMap<Long, Todo>(Collections.reverseOrder()));
+	// id값 생성에 사용할 변수(동시성 처리랑 관련 있음)
+	private AtomicLong maxId = new AtomicLong();
+
+	// todo 목록조회
+	// GET/todos
+	@GetMapping(value = "/todos")
+	public Collection<Todo> getTodos() {
+
+		// 숫자값 1개 증가하고 가져오기
+//		Long currentId = maxId.incrementAndGet();
+//		// 빌더 패턴으로 객체 생성 - 생성자처럼 배개변수 순서를 안지켜도 됨
+//		todoMap.put(currentId, Todo.builder().id(currentId).memo("test1").createdTime(new Date().getTime()).build());
+//		// 맵에 생성한 객체를 넣어줌
+
+		// 맵 값 목록
+		return new ArrayList<Todo>(todos.values());
+		// 맵 데이터 역정렬
+		return todoMap.descendingMap().values();
+	}
+
+	// todo 1건 추가
+	// POST/todos
+	@PostMapping(value = "/todos")
+	public Todo addTodo(@RequestBody Todo todo, HttpServletResponse res) {
+		// 데이터 검증 로직
+		// 메모값이 없으면 에러처리함
+		if (todo.getMemo() == null || todo.getMemo().isEmpty()) {
+			// 클라이언트에서 메모값 없이 보내거나 빈값으로 보낸것
+			// 클라이언트 오류 4XX오류 요청값을 잘못보낸거 -> Bad Request(400)
+			// res.setStatus(400)
+
+			// dispatcherServlet이 생성한 응답객체에 status코드를 넣어줌
+			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
+		}
+
+		// id값을 생성
+		Long currentId = maxId.incrementAndGet();
+		// 입력받은 데이터로 todo객체 생성
+		// id값과 생성일시는 서버에서 생성한 것으로 처리함
+		// html 태그가 있으면 날려버림(script 태그에서 문제가 발생함)
+		Todo todoItem = Todo.builder().id(currentId).memo(todo.getMemo()).createdTime(new Date().getTime()).build();
+
+		// todo 목록객체 추가
+		todoMap.put(currentId, todoItem);
+		// 추가된 객체를 반환
+		return todoItem;
+
+	}
+
+	// todo 1건 삭제
+	// DELETE /todos/1 -> id가 1인 항목을 삭제해라
+	// id값이 Path variable로
+	@DeleteMapping(value = "/todos/{id}")
+	public boolean removeTodo(@PathVariable long id, HttpServletResponse res) {
+
+		// 해당 id의 데이터 1건을 가져옴
+		Todo todo = todos.get(Long.valueOf(id));
+		// 해당 데이터가 없다면
+		if (todo == null) {
+			// res.setStatus (404) - not found : 해당 경로에 리소스가 없음
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return false;
+		}
+
+		// 삭제 수행
+		todos.remove(Long.valueOf(id));
+	}
+
+	// todo 1건 수정
+	// PUT /todos/1 {"memo":"..."}
+	// id값이 Path variable로
+	@PutMapping(value="/todos/{id}")
+	public Todo modifyTodo(@PathVariable long id, Todo todo, HttpServletResponse res) {
+		Todo findItem = todos.get(Long.valueOf(id));
+		if (findItem == null) {
+			// res.setStatus (404) - not found : 해당 경로에 리소스가 없음
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+
+		// 데이터 검증 로직
+		// 메모값이 없으면 에러처리함
+		if (todo.getMemo() == null || todo.getMemo().isEmpty()) {
+			// 클라이언트에서 메모값 없이 보내거나 빈값으로 보낸것
+			// 클라이언트 오류 4XX오류 요청값을 잘못보낸거 -> Bad Request(400)
+			// res.setStatus(400)
+
+			// dispatcherServlet이 생성한 응답객체에 status코드를 넣어줌
+			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
+		}
+
+		// 데이터 변경
+		findItem.setMemo(todo.getMemo());
+		return findItem;
+	}
+}
+----------------------------------------------------------------------------
+CORS(Cross Origin Resource Sharing)
+: 웹에 리소스(자원) 공유에 대한 표준 정책
+: 기본적으로 같은 프로토콜, 도메인, 포트의 리소스만 공유가능
+: 프로토콜 : // 도메인:포트
+: 예) http://www.naver.com <-- https://www.naver.com
+			<-- https://api..naver.com (안됨)
+: 예) http://localhost:3000 X <--http://localhost:8080 (안됨)
+
+=> 서버 측에 Access-Control-Allow-Origin 헤더를 넣어서 처리해줘야함
+->CORS정책에 예외로 처리할 주소를 처리해줘야함
+-----------------------------------------------------------------------
+const fetch = new Promise((resolve, reject)=>{
+// 네트워크 통신이 일어남...
+// 네트워크 통신이 완료되면
+const response = ...
+resolve(response);
+});
+
+fetch(...)
+----------------------------------------------------------------------

@@ -1,0 +1,12 @@
+백엔드와 연동할 때
+1. 백엔드와 연동 잘되면
+2. state변경
+-------------------------
+class TodoItemCreateResponse{
+private Todo todoItem;
+private String errMessage}
+-------------------------
+Http Response Body
+[{}]
+-------------
+------------------------------------------------
