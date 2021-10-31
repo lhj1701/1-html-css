@@ -26,10 +26,11 @@ import com.git.myworkspace.lib.TextProcesser;
 public class PhotoController {
 
 	private PhotoRepository repo;
+	private PhotoCommentRepository cmtrepo;
 
-	// Autowired ¾î³ëÅ×ÀÌ¼ÇÀº ¸Å°³º¯¼ö³ª ÇÊµå Å¸ÀÔ¿¡ ¸Â´Â °´Ã¼¸¦ ½ºÇÁ¸µ¿¡¼­ »ı¼ºÇÏ¿© ÁÖÀÔÇØÁÜ(ÀÇÁ¸¼º ÁÖÀÔ, ÀÇÁ¸°´Ã¼ÁÖÀÔ,
+	// Autowired ì–´ë…¸í…Œì´ì…˜ì€ ë§¤ê°œë³€ìˆ˜ë‚˜ í•„ë“œ íƒ€ì…ì— ë§ëŠ” ê°ì²´ë¥¼ ìŠ¤í”„ë§ì—ì„œ ìƒì„±í•˜ì—¬ ì£¼ì…í•´ì¤Œ(ì˜ì¡´ì„± ì£¼ì…, ì˜ì¡´ê°ì²´ì£¼ì…,
 	// DI-dependency injection)
-	// Repository ÀÎÅÍÆäÀÌ½º ±¸Á¶¿¡ ¸Â´Â °´Ã¼¸¦ ½ºÇÁ¸µ¿¡ »ı¼ºÇÏ¿© ³Ö¾îÁÜ
+	// Repository ì¸í„°í˜ì´ìŠ¤ êµ¬ì¡°ì— ë§ëŠ” ê°ì²´ë¥¼ ìŠ¤í”„ë§ì— ìƒì„±í•˜ì—¬ ë„£ì–´ì¤Œ
 	@Autowired
 	public PhotoController(PhotoRepository repo) {
 		this.repo = repo;
@@ -37,17 +38,17 @@ public class PhotoController {
 
 	@GetMapping(value = "/photos")
 	public List<Photo> getPhotos() throws InterruptedException {
-		// select * from photo; ¿Í °°À½
-		// ±âº»ÀûÀ¸·Î pk ¼øÁ¤·Ä(ascs, ascending)
+		// select * from photo; ì™€ ê°™ìŒ
+		// ê¸°ë³¸ì ìœ¼ë¡œ pk ìˆœì •ë ¬(ascs, ascending)
 //		return repo.findAll();
 
-		// id ÄÃ·³ ¿ªÁ¤·Ä(clusted index)
-		// Sort.by("Á¤·ÄÄÃ·³").descending() ¿ªÁ¤·Ä
-		// Sort.by("Á¤·ÄÄÃ·³").ascending() ¼øÁ¤·Ä
+		// id ì»¬ëŸ¼ ì—­ì •ë ¬(clusted index)
+		// Sort.by("ì •ë ¬ì»¬ëŸ¼").descending() ì—­ì •ë ¬
+		// Sort.by("ì •ë ¬ì»¬ëŸ¼").ascending() ìˆœì •ë ¬
 		return repo.findAll(Sort.by("id").descending());
 	}
 
-	// ÇÑ ÆäÀÌÁö 2°³. 1¹øÂ° ÆäÀÌÁö
+	// í•œ í˜ì´ì§€ 2ê°œ. 1ë²ˆì§¸ í˜ì´ì§€
 	// GET /photos/paging?page=0&size=2
 	@GetMapping("/photos/paging")
 	public Page<Photo> getPhotosPaging(@RequestParam int page, @RequestParam int size) {
@@ -60,19 +61,19 @@ public class PhotoController {
 	@PostMapping(value = "/photos")
 	public Photo addPhoto(@RequestBody Photo photo, HttpServletResponse res) throws InterruptedException {
 
-		// Å¸ÀÌÆ²ÀÌ ºó°ª
+		// íƒ€ì´í‹€ì´ ë¹ˆê°’
 		if (TextProcesser.isEmpyText(photo.getTitle())) {
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
 
-		// ÆÄÀÏURLÀÌ ºó°ª
+		// íŒŒì¼URLì´ ë¹ˆê°’
 		if (TextProcesser.isEmpyText(photo.getPhotoUrl())) {
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
 
-		// °´Ã¼ »ı¼º
+		// ê°ì²´ ìƒì„±
 		Photo photoItem = Photo.builder().title(photo.getTitle())
 				.description(TextProcesser.getPlainText(photo.getDescription())).photoUrl(photo.getPhotoUrl())
 				.fileType(photo.getFileType()).fileName(photo.getFileType()).createdTime(new Date().getTime()).build();
@@ -80,19 +81,19 @@ public class PhotoController {
 		// insert into photo(...) values(...)
 		Photo photoSaved = repo.save(photoItem);
 
-		// ¸®¼Ò½º »ı¼ºµÊ
+		// ë¦¬ì†ŒìŠ¤ ìƒì„±ë¨
 		res.setStatus(HttpServletResponse.SC_CREATED);
 
-		// Ãß°¡µÈ °´Ã¼¸¦ ¹İÈ¯
+		// ì¶”ê°€ëœ ê°ì²´ë¥¼ ë°˜í™˜
 		return photoSaved;
 	}
 
 	@DeleteMapping(value = "/photos/{id}")
 	public boolean removePhoto(@PathVariable long id, HttpServletResponse res) {
 
-		// id¿¡ ÇØ´çÇÏ´Â °´Ã¼°¡ ¾øÀ¸¸é
-		// Optional null-safe ¿ëÀ¸·Î ÀÚ¹Ù 1.8¿¡ ³ª¿Â ¹æ½Ä
-		// repository.findby(id °ª)
+		// idì— í•´ë‹¹í•˜ëŠ” ê°ì²´ê°€ ì—†ìœ¼ë©´
+		// Optional null-safe ìš©ìœ¼ë¡œ ìë°” 1.8ì— ë‚˜ì˜¨ ë°©ì‹
+		// repository.findby(id ê°’)
 		// select * from photo where id = ?;
 		Optional<Photo> photo = repo.findById(Long.valueOf(id));
 		if (photo.isEmpty()) {
@@ -100,7 +101,7 @@ public class PhotoController {
 			return false;
 		}
 
-		// »èÁ¦ ¼öÇà
+		// ì‚­ì œ ìˆ˜í–‰
 		// delete from photo where id = ?
 		repo.deleteById(id);
 
@@ -110,20 +111,20 @@ public class PhotoController {
 	@PutMapping(value = "/photos/{id}")
 	public Photo modifyPhoto(@PathVariable long id, @RequestBody Photo photo, HttpServletResponse res) {
 
-		// id¿¡ ÇØ´çÇÏ´Â °´Ã¼°¡ ¾øÀ¸¸é
+		// idì— í•´ë‹¹í•˜ëŠ” ê°ì²´ê°€ ì—†ìœ¼ë©´
 		Optional<Photo> photoItem = repo.findById(Long.valueOf(id));
 		if (photoItem.isEmpty()) {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
 
-		// Å¸ÀÌÆ²ÀÌ ºó°ª
+		// íƒ€ì´í‹€ì´ ë¹ˆê°’
 		if (TextProcesser.isEmpyText(photo.getTitle())) {
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
 
-		// ÆÄÀÏURLÀÌ ºó°ª
+		// íŒŒì¼URLì´ ë¹ˆê°’
 		if (TextProcesser.isEmpyText(photo.getPhotoUrl())) {
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
@@ -137,10 +138,21 @@ public class PhotoController {
 		photoToSave.setFileType(photo.getFileType());
 		photoToSave.setFileName(photo.getFileName());
 
-		// repository.save(entity) : id °¡ ÀÖÀ¸¸é ¾÷µ¥ÀÌÆ®, ¾øÀ¸¸é insert
-		// update set title=°ª, description=°ª....
+		// repository.save(entity) : id ê°€ ìˆìœ¼ë©´ ì—…ë°ì´íŠ¸, ì—†ìœ¼ë©´ insert
+		// update set title=ê°’, description=ê°’....
 		// where id = ?
 		Photo photoSaved = repo.save(photoToSave);
 		return photoSaved;
 	}
+
+	// í¬í†  í•˜ìœ„ì— ëŒ“ê¸€ ì¶”ê°€
+	// POST / photos/{photoId}/comments
+	// POST / photos/1/comments {"content": "ëŒ“ê¸€ ë‚´ìš©ì…ë‹ˆë‹¤"}
+	// id ê°€ 1ì¸ photoì— í•˜ìœ„ ë ˆì½”ë“œ comment ì¶”ê°€
+
+//	@GetMapping(value="/photos/{photoId}/comments")
+//	public PhotoComment addPhotoComment(@PathVariable long photoId, @RequestBody PhotoComment comment) {
+//		comment.set
+//		return null;
+//	}
 }

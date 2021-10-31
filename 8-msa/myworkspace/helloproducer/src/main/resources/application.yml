@@ -1,0 +1,10 @@
+server:
+  port: 9091
+
+spring:
+  rabbitmq:
+#    amqps://b-c39315bb-3511-4197-b9e6-4a17aed773d7.mq.ap-northeast-2.amazonaws.com:5671
+#    host: ec2-3-35-229-119.ap-northeast-2.compute.amazonaws.com
+    addresses: amqps://b-c39315bb-3511-4197-b9e6-4a17aed773d7.mq.ap-northeast-2.amazonaws.com:5671
+    username: rabbitmq
+    password: password123!

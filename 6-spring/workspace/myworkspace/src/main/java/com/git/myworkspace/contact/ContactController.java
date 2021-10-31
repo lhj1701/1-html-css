@@ -33,25 +33,25 @@ public class ContactController {
 		return repo.findAll(Sort.by("id").descending());
 	}
 
-	// ex) ÇÑ ÆäÀÌÁö 2°³. 1¹øÂ° ÆäÀÌÁö GET /contacts/paging?page=0&size=2
+	// ex) í•œ í˜ì´ì§€ 2ê°œ. 1ë²ˆì§¸ í˜ì´ì§€ GET /contacts/paging?page=0&size=2
 	@GetMapping("/contacts/paging")
 	public Page<Contact> getContactsPaging(@RequestParam int page, @RequestParam int size) {
-		// findAll(Pageable page) °´Ã¼ »ı¼ºÇÏ±â
-		// findAll(PageRequest.of(page, size, sort)) -> »ı¼º¹æ¹ı
+		// findAll(Pageable page) ê°ì²´ ìƒì„±í•˜ê¸°
+		// findAll(PageRequest.of(page, size, sort)) -> ìƒì„±ë°©ë²•
 		return repo.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
 	}
 
-	// POST/contacts- 1°Ç Ãß°¡
+	// POST/contacts- 1ê±´ ì¶”ê°€
 	@PostMapping(value = "/contacts")
 	public Contact addContact(@RequestBody Contact contact, HttpServletResponse res) throws InterruptedException {
 
 		// if ((contact.getName() == null || contact.getName().isEmpty())
 		// || (contact.getPhone() == null || contact.getPhone().isEmpty())
-		// || (contact.getEmail() == null || contact.getEmail().isEmpty())) -> ÀÌ¸§, ÀüÈ­¹øÈ£,
-		// ¸ŞÀÏ°ªÀÌ ¼Â Áß ÇÏ³ª¶óµµ ¾øÀ¸¸é ¿¡·¯Ã³¸®
+		// || (contact.getEmail() == null || contact.getEmail().isEmpty())) -> ì´ë¦„, ì „í™”ë²ˆí˜¸,
+		// ë©”ì¼ê°’ì´ ì…‹ ì¤‘ í•˜ë‚˜ë¼ë„ ì—†ìœ¼ë©´ ì—ëŸ¬ì²˜ë¦¬
 
 		if ((contact.getName() == null || contact.getName().isEmpty())
-				|| (contact.getPhone() == null || contact.getPhone().isEmpty())) { // -> ÀÌ¸§ ÀüÈ­¹øÈ£ µÑ Áß ÇÏ³ª¶óµµ ¾øÀ¸¸é ¿¡·¯ Ã³¸®
+				|| (contact.getPhone() == null || contact.getPhone().isEmpty())) { // -> ì´ë¦„ ì „í™”ë²ˆí˜¸ ë‘˜ ì¤‘ í•˜ë‚˜ë¼ë„ ì—†ìœ¼ë©´ ì—ëŸ¬ ì²˜ë¦¬
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
@@ -59,9 +59,9 @@ public class ContactController {
 				.email(contact.getEmail()).memo(contact.getMemo()).createdTime(new Date().getTime()).build();
 
 		Contact contactSaved = repo.save(contactItem);
-		// ¸®¼Ò½º »ı¼ºµÊ
+		// ë¦¬ì†ŒìŠ¤ ìƒì„±ë¨
 		res.setStatus(HttpServletResponse.SC_CREATED);
-		// Ãß°¡µÈ °´Ã¼¸¦ ¹İÈ¯
+		// ì¶”ê°€ëœ ê°ì²´ë¥¼ ë°˜í™˜
 		return contactSaved;
 
 	}
@@ -74,7 +74,7 @@ public class ContactController {
 			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return false;
 		}
-		// »èÁ¦ ¼öÇà
+		// ì‚­ì œ ìˆ˜í–‰
 		repo.deleteById(id);
 		return true;
 	}
@@ -88,20 +88,20 @@ public class ContactController {
 		}
 		// if ((contact.getName() == null || contact.getName().isEmpty())
 		// || (contact.getPhone() == null || contact.getPhone().isEmpty())
-		// || (contact.getEmail() == null || contact.getEmail().isEmpty())) -> ÀÌ¸§, ÀüÈ­¹øÈ£,
-		// ¸ŞÀÏ°ªÀÌ ¼Â Áß ÇÏ³ª¶óµµ ¾øÀ¸¸é ¿¡·¯Ã³¸®
+		// || (contact.getEmail() == null || contact.getEmail().isEmpty())) -> ì´ë¦„, ì „í™”ë²ˆí˜¸,
+		// ë©”ì¼ê°’ì´ ì…‹ ì¤‘ í•˜ë‚˜ë¼ë„ ì—†ìœ¼ë©´ ì—ëŸ¬ì²˜ë¦¬
 
-		// ÀÌ¸§, Æù¹øÈ£ ÀÔ·Â°ªÀÌ µÑ Áß ÇÏ³ª¶óµµ ¾øÀ¸¸é ¿¡·¯Ã³¸®ÇÔ
+		// ì´ë¦„, í°ë²ˆí˜¸ ì…ë ¥ê°’ì´ ë‘˜ ì¤‘ í•˜ë‚˜ë¼ë„ ì—†ìœ¼ë©´ ì—ëŸ¬ì²˜ë¦¬í•¨
 		if ((contact.getName() == null || contact.getName().isEmpty())
 				|| (contact.getPhone() == null || contact.getPhone().isEmpty())) {
-			// Å¬¶óÀÌ¾ğÆ®¿¡¼­ ÀÌ¸§°ªÀÌ ¾øÀÌ º¸³»°Å³ª ºó°ªÀ¸·Î º¸³½ °Í, Dispatcher ServletÀÌ »ı¼ºÇÑ ÀÀ´ä°´Ã¼¿¡ statusÄÚµå¸¦ ³Ö¾îÁÜ
+			// í´ë¼ì´ì–¸íŠ¸ì—ì„œ ì´ë¦„ê°’ì´ ì—†ì´ ë³´ë‚´ê±°ë‚˜ ë¹ˆê°’ìœ¼ë¡œ ë³´ë‚¸ ê²ƒ, Dispatcher Servletì´ ìƒì„±í•œ ì‘ë‹µê°ì²´ì— statusì½”ë“œë¥¼ ë„£ì–´ì¤Œ
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
 
 		Contact contactToSave = contactItem.get();
 
-		// µ¥ÀÌÅÍ º¯°æ
+		// ë°ì´í„° ë³€ê²½
 		contactToSave.setName(contact.getName());
 		contactToSave.setPhone(contact.getPhone());
 		contactToSave.setEmail(contact.getEmail());
@@ -111,7 +111,7 @@ public class ContactController {
 		return contactSaved;
 	}
 
-//	// html ÅÂ±×¸¦ Á¦°ÅÇÏ´Â ¸Ş¼Òµå
+//	// html íƒœê·¸ë¥¼ ì œê±°í•˜ëŠ” ë©”ì†Œë“œ
 //	private String getPlainText(String text) {
 //		return text.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
 //	}

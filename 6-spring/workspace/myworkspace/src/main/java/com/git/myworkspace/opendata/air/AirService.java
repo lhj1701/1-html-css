@@ -11,12 +11,13 @@ import java.util.List;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 
-// @service(¼­ºñ½ºÄÄÆ÷³ÍÆ®) : ¿ÜºÎ½Ã½ºÅÛ Åë½Å, µ¥ÀÌÅÍ Æ®·£Àè¼Ç Ã³¸®
+// @service(ì„œë¹„ìŠ¤ì»´í¬ë„ŒíŠ¸) : ì™¸ë¶€ì‹œìŠ¤í…œ í†µì‹ , ë°ì´í„° íŠ¸ëœì­ì…˜ ì²˜ë¦¬
 @Service
 public class AirService {
 
@@ -29,68 +30,79 @@ public class AirService {
 		this.repo = repo;
 	}
 
-	@SuppressWarnings("deprecation")
-	// ½Ã±º±¸º° ´ë±âÁú ½Ã°£´ÜÀ§ Á¶È¸(1½Ã°£¸¶´Ù ½ÇÇà(js, setInterval)
-	// fixedRate °¡Àå Ã³À½¿¡ ½ÇÇàµÇ°í °£°İº°·Î ½ÈÇàµÊ
+	// ì‹œêµ°êµ¬ë³„ ëŒ€ê¸°ì§ˆ ì‹œê°„ë‹¨ìœ„ ì¡°íšŒ(1ì‹œê°„ë§ˆë‹¤ ì‹¤í–‰(js, setInterval)
+	// fixedRate ê°€ì¥ ì²˜ìŒì— ì‹¤í–‰ë˜ê³  ê°„ê²©ë³„ë¡œ ì‹«í–‰ë¨
 	@Scheduled(fixedRate = 1000 * 60 * 60 * 1)
-	public void requestAirSigunguHOUR() throws IOException {
-		System.out.println(new Date().toLocaleString());
+	// @CacheEvict(value="ìºì‹œì´ë¦„", allEntries = true) í•´ë‹¹ ìºì‹œì´ë¦„ì˜ ëª¨ë“  í‚¤ë¥¼ ì‚­ì œ
+	@CacheEvict(value = "air-current", allEntries = true)
+	public void requestAir() throws IOException {
+//		String[] sidoNames = { "ì„œìš¸", "ê²½ê¸°" };
+		String[] sidoNames = { "ì„œìš¸" };
+		for (String sidoName : sidoNames) {
+			requestAirSigunguHour(sidoName);
+		}
+	}
 
-		/*---------µ¥ÀÌÅÍ ¿äÃ»ÇÏ°í XML ¹Ş¾Æ¿À±â ½ÃÀÛ------------*/
-		// ¹®ÀÚ¿­À» ºô´õ¹æ½ÄÀ¸·Î »ı¼ºÇÏ´Â Å¬·¡½º
-		// 1.¿äÃ» url ¸¸µé±â
+	@SuppressWarnings("deprecation")
+	public void requestAirSigunguHour(String sido) throws IOException {
+		System.out.println(new Date().toLocaleString());
+		/*---------ë°ì´í„° ìš”ì²­í•˜ê³  XML ë°›ì•„ì˜¤ê¸° ì‹œì‘------------*/
+		// ë¬¸ìì—´ì„ ë¹Œë”ë°©ì‹ìœ¼ë¡œ ìƒì„±í•˜ëŠ” í´ë˜ìŠ¤
+		// 1.ìš”ì²­ url ë§Œë“¤ê¸°
 		StringBuilder builder = new StringBuilder();
-		builder.append("http://apis.data.go.kr/B552584"); // È£½ºÆ®/°ÔÀÌÆ®¿şÀÌ
-		builder.append("/ArpltnStatsSvc"); // ¼­ºñ½º
-		builder.append("/getCtprvnMesureSidoLIst"); // ±â´É (½Ãµµ-½Ã±º±ºº°Á¶È¸) ¿¹: ¼­¿ï-°­³²±¸...Áß¶û±¸
-		builder.append("?sidoName=" + URLEncoder.encode("¼­¿ï", "UTF-8")); // ¼­¿ï¸¸
-		builder.append("&searchCondition=HOUR"); // 1½Ã°£ ´ÜÀ§
-		builder.append("&pageNo=1&numOfRows=25"); // ¼­¿ïÀÇ ±¸ 25°³
-		builder.append("&serviceKey=" + SERVICE_KEY); // ¼­ºñ½º Å°
+		builder.append("http://apis.data.go.kr/B552584"); // í˜¸ìŠ¤íŠ¸/ê²Œì´íŠ¸ì›¨ì´
+		builder.append("/ArpltnStatsSvc"); // ì„œë¹„ìŠ¤
+		builder.append("/getCtprvnMesureSidoLIst"); // ê¸°ëŠ¥ (ì‹œë„-ì‹œêµ°êµ°ë³„ì¡°íšŒ) ì˜ˆ: ì„œìš¸-ê°•ë‚¨êµ¬...ì¤‘ë‘êµ¬
+		builder.append("?sidoName=" + URLEncoder.encode(sido, "UTF-8"));
+		builder.append("&searchCondition=HOUR"); // 1ì‹œê°„ ë‹¨ìœ„
+		builder.append("&pageNo=1&numOfRows=100"); // ì„œìš¸ì˜ êµ¬ 25ê°œ
+		builder.append("&serviceKey=" + SERVICE_KEY); // ì„œë¹„ìŠ¤ í‚¤
 
 //		System.out.println(builder.toString());
 
-		// 2.url °´Ã¼ »ı¼º
+		// 2.url ê°ì²´ ìƒì„±
 		URL url = new URL(builder.toString());
 
-		// 3. Http Á¢¼Ó »ı¼º
+		// 3. Http ì ‘ì† ìƒì„±
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
-		// 4. byte[] ¹è¿­·Î µ¥ÀÌÅÍ¸¦ ÀĞ¾î¿È
+		// 4. byte[] ë°°ì—´ë¡œ ë°ì´í„°ë¥¼ ì½ì–´ì˜´
 		byte[] result = con.getInputStream().readAllBytes();
 
-		// 5. byte[] -> ¹®ÀÚ¿­(xml) º¯È¯
+		// 5. byte[] -> ë¬¸ìì—´(xml) ë³€í™˜
 		String data = new String(result, "UTF-8");
 //		System.out.println(data);
-		/*---------µ¥ÀÌÅÍ ¿äÃ»ÇÏ°í XML ¹Ş¾Æ¿À±â ³¡------------*/
+		/*---------ë°ì´í„° ìš”ì²­í•˜ê³  XML ë°›ì•„ì˜¤ê¸° ë------------*/
 
-		/*---------xml -> json -> object(java)½ÃÀÛ------------*/
-		// xml(¹®ÀÚ¿­) -> json(°´Ã¼)
+		/*---------xml -> json -> object(java)ì‹œì‘------------*/
+		// xml(ë¬¸ìì—´) -> json(ê°ì²´)
 		JSONObject josnObj = XML.toJSONObject(data);
-		// json(°´Ã¼) -> json(¹®ÀÚ¿­)
+		// json(ê°ì²´) -> json(ë¬¸ìì—´)
 		String json = josnObj.toString(2);
 //		System.out.println(json);
 
-		// json(¹®ÀÚ¿­)-> java(object)
+		// json(ë¬¸ìì—´)-> java(object)
 		AirSigunguHourResponse response = new Gson().fromJson(json, AirSigunguHourResponse.class);
 //		System.out.println(response);
 
-//		// °­µ¿±¸ µ¥ÀÌÅÍ
+//		// ê°•ë™êµ¬ ë°ì´í„°
 //		AirSiGunGuHourResponse.Item item = response.getResponse().getBody().getItems().getItem().get(1);
 //		System.out.println(item);
-		/*---------xml -> json -> object(java)³¡------------*/
+		/*---------xml -> json -> object(java)ë------------*/
 
-		/*---------ÀÀ´ä°´Ã¼ -> ¿£Æ¼Æ¼ ½ÃÀÛ------------*/
+		/*---------ì‘ë‹µê°ì²´ -> ì—”í‹°í‹° ì‹œì‘------------*/
 		List<AirSigunguHour> list = new ArrayList<AirSigunguHour>();
 		for (AirSigunguHourResponse.Item item : response.getResponse().getBody().getItems().getItem()) {
 			AirSigunguHour record = AirSigunguHour.builder().dataTime(item.getDataTime()).sidoName(item.getSidoName())
-					.cityName(item.getCityName()).pm10Value(item.getPm10Value()).pm25Value(item.getPm25Value()).build();
+					.cityName(item.getCityName())
+					.pm10Value(item.getPm10Value().isEmpty() ? null : Integer.valueOf(item.getPm10Value()))
+					.pm25Value(item.getPm25Value().isEmpty() ? null : Integer.valueOf(item.getPm25Value())).build();
 			list.add(record);
 		}
 
-		/*---------ÀÀ´ä°´Ã¼ -> ¿£Æ¼ ³¡------------*/
-		/*---------¿£Æ¼Æ¼ -> ¸®Æ÷ÁöÅÍ¸®·Î ÀúÀå ½ÃÁ÷-----------*/
+		/*---------ì‘ë‹µê°ì²´ -> ì—”í‹° ë------------*/
+		/*---------ì—”í‹°í‹° -> ë¦¬í¬ì§€í„°ë¦¬ë¡œ ì €ì¥ ì‹œì§-----------*/
 		repo.saveAll(list);
-		/*---------¿£Æ¼Æ¼ -> ¸®Æ÷ÁöÅÍ¸®·Î ÀúÀå ³¡------------*/
+		/*---------ì—”í‹°í‹° -> ë¦¬í¬ì§€í„°ë¦¬ë¡œ ì €ì¥ ë------------*/
 	}
 }

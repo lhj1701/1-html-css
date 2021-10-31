@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { Provider } from "react-redux"; // react 앱에 redux store를 제공
 import { store } from "./store"; // redux store
-
-import Home from "./features/Home";
+import FullCalendar from "@fullcalendar/react";
+import Home from "./features/home/Home";
 import Profile from "./features/profile/Profile";
 import Progress from "./components/progress/progress";
 import AlertStack from "./components/alert/AlertStack";
+import EventMessage from "./components/EventMessage";
 //react == 컴포넌트 개발 라이브러리
 const Feed = lazy(()=> import ("./features/feed/Feed_이효정"));
 const Todo = lazy(()=> import ('./features/todo/Todo'));
@@ -21,6 +22,7 @@ const Photo =lazy(() => import("./features/photo/Photo"));
 const PhotoCreate = lazy(()=> import("./features/photo/PhotoCreate"));
 const PhotoDetail = lazy(()=> import("./features/photo/PhotoDetail"));
 const PhotoEdit = lazy(()=> import("./features/photo/PhotoEdit"));
+const Calendar = lazy(()=> import("./features/calendar/fullcalendar"));
 
 function App() {
   return (
@@ -42,6 +44,7 @@ function App() {
           <li><Link to="/contacts">Contact</Link></li>
           <li><Link to="/contactInline">Contact-inline</Link></li>
           <li><Link to="/photos">Photos</Link></li>
+          <li><Link to="/calendar">Calendar</Link></li>
           </ul>
         </nav>
         <main className="content-container">
@@ -63,11 +66,12 @@ function App() {
               {/* id라는 매개변수를 url 경로에 넘김, path parameter */}
               <Route path="/photos/detail/:id" component={PhotoDetail} />
               <Route path="/photos/edit/:id" component={PhotoEdit} />
-
+              <Route path="/calendar" component={Calendar} />
             </Switch>
           </Suspense>
           <Progress/>
           <AlertStack/>
+          <EventMessage/>
         </main>
       </div>
     </Router>

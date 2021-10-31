@@ -1,0 +1,1 @@
+ssh -i "c:\git2021-working\mq.pem" ubuntu@ec2-3-36-116-55.ap-northeast-2.compute.amazonaws.com

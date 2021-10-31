@@ -13,6 +13,6 @@ public class AirSigunguHourId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String dataTime;
-	private String sidoName; // ¹Ğµµ°¡ Ä¿ºÃÀÚ 5%, ºĞÆ÷µµ°¡ Ä¿ºÃÀÚ 20, ÀÎµ¦½º Á¦¿Ü
+	private String sidoName; // ë°€ë„ê°€ ì»¤ë´¤ì 5%, ë¶„í¬ë„ê°€ ì»¤ë´¤ì 20, ì¸ë±ìŠ¤ ì œì™¸
 	private String cityName;
 }

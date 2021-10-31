@@ -6,19 +6,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
-	// CORS(cross origin resource sharing)À» ¼³Á¤
+	// CORS(cross origin resource sharing)ì„ ì„¤ì •
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**") // °øÀ¯ Á¤Ã¥À» Àû¿ëÇÒ ¸®¼Ò½º, /** : ÀüÃ¼¸®¼Ò½º¸¦ Çã¿ë(/todos, /contacts...)
+		registry.addMapping("/**") // ê³µìœ  ì •ì±…ì„ ì ìš©í•  ë¦¬ì†ŒìŠ¤, /** : ì „ì²´ë¦¬ì†ŒìŠ¤ë¥¼ í—ˆìš©(/todos, /contacts...)
 
-				// °øÀ¯ Á¤Ã¥À» Çã¿ëÇÒ ¿À¸®Áø(Å¬¶óÀÌ¾ðÆ® ÁÖ¼Ò) ¸ñ·Ï
-				// origin(¿øÃµ) : html ¹®¼­¸¦ ¹èÆ÷ÇÑ ¼­¹öÀÇ ÁÖ¼Ò
-				// html ¹®¼­¿¡´Â ¾îµð¼­ ¹®¼­¸¦ ¹Þ¾Æ¿Ô´ÂÁö¸¦ ±â·ÏÇÏ°í ÀÖÀ½
-				// ºê¶ó¿ìÀú->¼­¹ö
+				// ê³µìœ  ì •ì±…ì„ í—ˆìš©í•  ì˜¤ë¦¬ì§„(í´ë¼ì´ì–¸íŠ¸ ì£¼ì†Œ) ëª©ë¡
+				// origin(ì›ì²œ) : html ë¬¸ì„œë¥¼ ë°°í¬í•œ ì„œë²„ì˜ ì£¼ì†Œ
+				// html ë¬¸ì„œì—ëŠ” ì–´ë””ì„œ ë¬¸ì„œë¥¼ ë°›ì•„ì™”ëŠ”ì§€ë¥¼ ê¸°ë¡í•˜ê³  ìžˆìŒ
+				// ë¸Œë¼ìš°ì €->ì„œë²„
 				.allowedOrigins("http://localhost:3000", "http://127.0.0.1:5500/",
 						"http://ec2-3-38-95-168.ap-northeast-2.compute.amazonaws.com")
 
-				// °øÀ¯ Á¤Ã¥À¸·Î Çã¿ëÇÒ HTTP¸Þ¼Òµå
-				.allowedMethods("*");// ÀüÃ¼¸Þ¼Òµå¸¦ Çã¿ë(GET,POST,PUT...)
+				// ê³µìœ  ì •ì±…ìœ¼ë¡œ í—ˆìš©í•  HTTPë©”ì†Œë“œ
+				.allowedMethods("*");// ì „ì²´ë©”ì†Œë“œë¥¼ í—ˆìš©(GET,POST,PUT...)
 	}
 }
