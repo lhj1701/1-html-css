@@ -1,20 +1,21 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import { useState } from 'react'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import { useState } from "react";
+import styles from "../styles/Home.module.css";
 
-interface HomeProp{
-  todo:Todo;
+interface HomeProp {
+  todo: Todo;
 }
+
 interface Todo {
   userId: number;
-  id : number;
-  title:string;
-  completed:boolean;
+  id: number;
+  title: string;
+  completed: boolean;
 }
 
-const Home = ({todo}:HomeProp) => {
-
+const Home = ({ todo }: HomeProp) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -24,24 +25,23 @@ const Home = ({todo}:HomeProp) => {
       </Head>
 
       <main className={styles.main}>
-        내용입니다
-        <div>{todo&&todo.title}</div>
+        내용입니다.
+        <div>{todo.title}</div>
       </main>
 
-      <footer className={styles.footer}>
-      </footer>
+      <footer className={styles.footer}></footer>
     </div>
-  )
-}
+  );
+};
 
-// 여기 함수 부분의 코드를 실행하여 반환 값을 컴포넌트 속성을 넣어줌
-export async function getServerSideProps(){
+// 여기 함수부분의 코드를 실행하여 반환 값을 컴포넌트 속성을 넣어줌
+export async function getServerSideProps() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+  const todo: Todo = await res.json();
 
-  const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-  const todo : Todo = await res.json();
-
-  // prop : {속성객체}
+  // 여기에 prop: {속성객체}
   // 속성객체를 컴포넌트의 속성을 넣어줌
-  return {props:{todo}};
+  return { props: { todo } };
 }
-export default Home
+
+export default Home;

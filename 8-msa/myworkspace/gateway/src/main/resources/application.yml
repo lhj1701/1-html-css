@@ -20,12 +20,12 @@ spring:
               
 #      # 서비스별 경로 개별 등록
 #      routes:
-#      - id: service1
-#        uri: lb://SERVICE-1
+#      - id: reservation
+#        uri: lb://RESERVATION
 #        predicates: # 조건식
-#        - Path=/service-1/**
+#        - Path=/reservation/**
 #        filters: #/service-1/ 경로 제거
-#        - RewritePath=/service-1/(?<path>.*),/$\{path}
+#        - RewritePath=/reservation/(?<path>.*),/$\{path}
     
 eureka:
   client:
@@ -46,6 +46,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://ec2-52-79-57-244.ap-northeast-2.compute.amazonaws.com:8761/eureka/
+      defaultZone: http://ec2-3-38-153-49.ap-northeast-2.compute.amazonaws.com:8761/eureka/
   instance:
-    hostname: ec2-52-79-57-244.ap-northeast-2.compute.amazonaws.com
+    hostname: ec2-3-38-153-49.ap-northeast-2.compute.amazonaws.com

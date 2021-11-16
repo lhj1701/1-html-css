@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductCreateRequest {
-	private String Code;
-	private String Name;
-	private int unitPrice;
+	private String name;
+	private int price;
 }
