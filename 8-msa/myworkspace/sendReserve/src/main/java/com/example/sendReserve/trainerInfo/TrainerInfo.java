@@ -1,4 +1,4 @@
-package com.example.sendReserve.reservation;
+package com.example.sendReserve.trainerInfo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,16 +15,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Reservation {
+public class TrainerInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+//	private String gymCoNum;
+	private String gymCode;
 //	@Column(columnDefinition = "VARCHAR(1000)")
-	private String memberName;
-//	@Column(columnDefinition = "TEXT")
-	private String memberPhone;
-	private String memberRequest;
-	private String gymName;
 	private String trainerName;
-	private String boughtService;
 }

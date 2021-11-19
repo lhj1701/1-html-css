@@ -16,16 +16,16 @@ public class GymInfoService {
 	// 데이터가 갱신되는 시점에 캐시 삭제
 	// ex) 타 시스템에서 데이터를 받아와서 저장함
 //	@CacheEvict(value = "gyminfo", allEntries = true)
-	@RabbitListener(queues = "service.gym.create")
+	@RabbitListener(queues = "service.gym.create2")
 	public void getGymInfo(GymInfo gymInfo) {
 		System.out.println(gymInfo);
 		saveGymInfo(gymInfo);
 	}
 
 	public GymInfo saveGymInfo(GymInfo gymInfo) {
-		GymInfo saveGymInfo = GymInfo.builder().gymName(gymInfo.getGymName()).gymAddress(gymInfo.getGymAddress())
-				.gymTime(gymInfo.getGymTime()).thumbnailUrl(gymInfo.getThumbnailUrl())
-				.trainerName(gymInfo.getTrainerName()).build();
+		GymInfo saveGymInfo = GymInfo.builder().gymCoNum(gymInfo.getGymCoNum()).gymName(gymInfo.getGymName())
+				.gymAddress(gymInfo.getGymAddress()).gymTime(gymInfo.getGymTime()).gymPhoto(gymInfo.getGymPhoto())
+				.build();
 		repo.save(saveGymInfo);
 
 		return saveGymInfo;

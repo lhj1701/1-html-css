@@ -18,10 +18,10 @@ import lombok.NoArgsConstructor;
 public class GymInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id; // 자동증가값 // 타 시스템에 받은 id값
+	private long id; // 자동증가값 // 타 시스템에 받은 id값
+	private String gymCoNum;
 	private String gymName;
-	private String thumbnailUrl;
+	private String gymPhoto;
 	private String gymAddress;
 	private String gymTime;
-	private String trainerName;
 }

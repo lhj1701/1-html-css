@@ -21,10 +21,6 @@ import com.example.sendReserve.lib.TextProcesser;
 public class ReservationController {
 
 	private SendReserveService service;
-//
-//	public ReservationController(SendReserveService service) {
-//		this.service = service;
-//	}
 
 	private ReservationRepository repo;
 
@@ -49,7 +45,7 @@ public class ReservationController {
 			res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return null;
 		}
-		Reservation reservationItem = Reservation.builder().gymName(reservation.getGymName())
+		Reservation reservationItem = Reservation.builder().id(reservation.getId()).gymName(reservation.getGymName())
 				.trainerName(reservation.getTrainerName()).boughtService(reservation.getBoughtService())
 				.memberName(reservation.getMemberName()).memberPhone(reservation.getMemberPhone())
 				.memberRequest(reservation.getMemberRequest()).build();
@@ -78,6 +74,8 @@ public class ReservationController {
 	@PutMapping(value = "/reservation/{id}")
 	public Reservation modifyReservation(@PathVariable long id, @RequestBody Reservation reservation,
 			HttpServletResponse res) {
+
+		service.sendReserve(reservation);
 
 		Optional<Reservation> reservationItem = repo.findById(id);
 		if (reservationItem.isEmpty()) {
