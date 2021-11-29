@@ -14,7 +14,9 @@ public class WebConfiguration implements WebMvcConfigurer {
 				.addMapping("/**") // 전체리소스를 허용(/todos, /contacts....)
 				.allowedOrigins("http://localhost:3000", "http://127.0.0.1:5500/",
 //							"http://15.164.54.22:3000", "http://15.164.54.22",
-						"http://ec2-3-38-95-168.ap-northeast-2.compute.amazonaws.com")
+						"http://ec2-52-79-254-140.ap-northeast-2.compute.amazonaws.com",
+						"http://ec2-3-36-96-181.ap-northeast-2.compute.amazonaws.com",
+						"http://ec2-3-34-181-87.ap-northeast-2.compute.amazonaws.com")
 				// 공유정책으로 허용할 HTTP메서드
 				.allowedMethods("*"); // 전체메서드를 허용(GET, POST, PUT....)
 	}

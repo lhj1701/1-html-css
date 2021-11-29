@@ -1,0 +1,1 @@
+ssh -i "c:\git2021-working\gagym.pem" ubuntu@ec2-52-79-254-140.ap-northeast-2.compute.amazonaws.com
